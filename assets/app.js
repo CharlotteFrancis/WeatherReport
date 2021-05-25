@@ -41,7 +41,6 @@ const renderIcon = (weather) => {
     default:
       answer = weather
   }
-
   return answer
 }
 
