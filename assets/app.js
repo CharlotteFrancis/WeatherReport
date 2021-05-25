@@ -155,3 +155,7 @@ document.addEventListener('click', event =>{
     renderData(JSON.parse(localStorage.getItem('history')[0].results))
   }
 })
+
+document.getElementById('clear').addEventListener('click', _ => {
+  resetHistory()
+})
