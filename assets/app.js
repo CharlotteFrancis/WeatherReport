@@ -3,7 +3,7 @@ const API_KEY = '8a22d1422a54e506e8d24576ca19a497'
 let historyArray = []
 
 // test request
-axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=irvine&units=imperial&appid=${API_KEY}`)
+axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=manila&units=imperial&appid=${API_KEY}`)
   .then(res => {
     let irvine = res.data
     console.log(irvine)
@@ -12,17 +12,34 @@ axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=irvine&units=imperi
 
 // reset UI
 const resetUI = _ =>{
-  document.getElementById('currentData').innerHTML =''
-  document.getElementById('forecastCard').innerHTML =''
+  document.getElementById('currentData').innerHTML = ''
+  document.getElementById('forecastCard').innerHTML = ''
 }
-
+// render forecast
+const renderForecast = (city) => {
+  for (let i = 0; i < 5; i++) {
+    let card = document.createElement('div')
+    card.innerHTML = `
+    <div class="card" style="width: 10rem;">
+      <div class="card-body bg-primary text-light">
+        <h5 class="card-title">${city.list[i * 8].dt_txt.substring(0, 10)}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">☁️</h6>
+        <p class="card-text">Temp: ${city.list[i * 8].main.temp}° F</p>
+        <p class="card-text">Temp: ${city.list[i * 8].main.humidity}° F</p>
+      </div>
+    </div>
+    `
+    document.getElementById('forecastCard').append(card)
+  }
+}
 // render Data (send this function "res.data")
 const renderData = (city) =>{
   resetUI()
   // create object to hold data
   let cityData = document.createElement('div')
+  console.log(city.list[0].dt_txt)
   cityData.innerHTML = `
-      <h2>${city.city.name}</h2>
+      <h2>${city.city.name} (${city.list[0].dt_txt.substring(0, 10)})</h2>
       <h6>Temperature: ${city.list[0].main.temp}° F</h6>
       <h6>Humidity: ${city.list[0].main.humidity}%</h6>
       <h6>Wind Speed: ${city.list[0].wind.speed} MPH</h6>
@@ -30,7 +47,7 @@ const renderData = (city) =>{
   // implement UV index
   document.getElementById('currentData').append(cityData)
 
-  // create cards
+  renderForecast(city)
 }
 
 // render history
@@ -56,7 +73,7 @@ document.getElementById('submit').addEventListener('click', event =>{
       console.log(city.list[0].wind.speed)
       console.log(city.list[0].wind.gust)
 
-      historyArray.push(
+      historyArray.unshift(
         {
           name: `${city.city.name}`,
           results: city
@@ -83,5 +100,7 @@ document.addEventListener('click', event =>{
 //navBar dashboard listener
 document.addEventListener('click', event =>{
   event.preventDefault()
-  if(event.target.classList.contains(''))
+  if(event.target.classList.contains('weather-dash')) {
+    renderData(historyArray[0].results)
+  }
 })
