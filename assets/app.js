@@ -22,6 +22,29 @@ const resetUI = _ =>{
   document.getElementById('currentData').innerHTML = ''
   document.getElementById('forecastCard').innerHTML = ''
 }
+// icon render
+const renderIcon = (weather) => {
+  let answer = '☁️'
+  switch (weather){
+    case 'Clouds':
+      answer = '☁️'
+      break
+    case 'Rain':
+      answer = '🌧️'
+      break
+    case 'Clear':
+      answer = '☀️'
+      break
+    case 'Snow':
+      answer = '🌨️'
+      break
+    default:
+      answer = weather
+  }
+
+  return answer
+}
+
 // render forecast
 const renderForecast = (city) => {
   for (let i = 0; i < 5; i++) {
@@ -30,7 +53,7 @@ const renderForecast = (city) => {
     <div class="card" style="width: 10rem;">
       <div class="card-body bg-primary text-light">
         <h5 class="card-title">${city.list[i * 8].dt_txt.substring(0, 10)}</h5>
-        <h6 class="card-subtitle mb-2">${city.list[0].weather[0].main}</h6>
+        <h6 class="card-subtitle mb-2">${renderIcon(city.list[0].weather[0].main)}</h6>
         <p class="card-text">Temp: ${city.list[i * 8].main.temp}° F</p>
         <p class="card-text">Temp: ${city.list[i * 8].main.humidity}° F</p>
       </div>
@@ -44,9 +67,8 @@ const renderData = (city) =>{
   resetUI()
   // create object to hold data
   let cityData = document.createElement('div')
-  console.log(city.list[0].dt_txt)
   cityData.innerHTML = `
-      <h2>${city.city.name} (${city.list[0].dt_txt.substring(0, 10)}) ${city.list[0].weather[0].main}</h2>
+      <h2>${city.city.name} (${city.list[0].dt_txt.substring(0, 10)}) ${renderIcon(city.list[0].weather[0].main)}</h2>
       <h6>Temperature: ${city.list[0].main.temp}° F</h6>
       <h6>Humidity: ${city.list[0].main.humidity}%</h6>
       <h6>Wind Speed: ${city.list[0].wind.speed} MPH</h6>
@@ -56,7 +78,7 @@ const renderData = (city) =>{
     .then(resp => {
       let uvgetter = resp.data
       let uvData = document.createElement('h6')
-
+      // colors based on UV index
       if (uvgetter.current.uvi > 9) {
         uvData.innerHTML = `
           UV Index: <button type="button" class="btn btn-danger">${uvgetter.current.uvi}</button>
