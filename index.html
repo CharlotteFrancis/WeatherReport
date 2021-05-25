@@ -23,16 +23,58 @@
           </a>
         </div>
     </nav>
-    <!-- main -->
-    <main class="container">
-         <!-- row -->
-         <div class="row">
-             <div class="col"></div>
-         </div>
+
+    <!-- main + row -->
+    <main class="row fill">
+        <!-- Search column -->
+        <div class="col-3 platinum"> 
+            <br>         
+               <!-- margins + spacing -->
+               <section class="container">
+                   <label for="searchCity" class="form-label">Search for a City:</label>
+                   <form>
+                       <div class="d-flex .justify-content-sm-between">
+                           <!-- input id = searchCity-->
+                           <input id = "searchCity" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <!-- search button id = submit -->
+                            <button id = "submit" class="btn btn-outline-success" type="submit">Search</button>
+                        </div>
+                    </form>
+                </section>
+                <!-- end search bar stuff -->
+                <!-- search history -->
+                <br>
+                <section class="container">
+                    <!-- append to this from app.js based on input -->
+                    <ul id="history" class="list-group"></ul>
+                </section>
+        </div>
+        <!-- Display column -->
+        <div class="col-9">
+            <br>
+            <!-- Current weather info -->
+            <!-- margin from container -->
+            <section class="container">
+                <summary class="row borderGrey">
+                    <!-- insert data here from the api on todays data -->
+                    <div id="currentData">
+                        <!-- test data here -->
+                    </div>
+                </summary>
+                <br>
+                <h3>5 day forecast</h3>
+                <figure id="forecastCard" class="d-flex .justify-content-sm-between">
+                    <!-- test card here -->
+                </figure>
+            </section>
+        </div>
+        <!-- end of display column -->
     </main>
+    <!-- end row -->
     
 
-
+    <!-- axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <!-- my js -->

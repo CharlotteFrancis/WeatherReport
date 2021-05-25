@@ -1,6 +1,39 @@
-my-center{
+.my-center{
     display: flex;
     align-items: flex-start;
     justify-content: center;
     flex-wrap: nowrap;
+}
+.fill {
+    min-height: 100vh;
+    height: 100%;
+}
+
+.borderGrey{
+    border-radius: 25px;
+    border: 2px solid #CBCADB;
+    padding: 20px;
+}
+/* colors */
+
+.aliceBlue{
+    background-color: #F4FAFF;
+}
+.platinum{
+    background-color: #DEE7E7;
+}
+.lavenderGrey{
+    background-color: #CBCADB;
+}
+.blueBell{
+    background-color: #b4adcf;
+}
+.davysGrey{
+    background-color: #535657;
+}
+.textWhite:{
+    color: #F4FAFF;
+}
+.textDark:{
+    color: #535657
 }
