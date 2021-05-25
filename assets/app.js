@@ -38,9 +38,9 @@ const renderHistory = (city) =>{
   let historyItem = document.createElement('li')
   historyItem.classList.add("list-group-item")
   historyItem.innerHTML = `
-  <p class="cityDat" data-text="${city.city.name}">
+  <div class="cityDat" data-text="${city.city.name}">
     ${city.city.name}
-  </p>
+  </div>
   `
   document.getElementById('history').prepend(historyItem)
 }
@@ -65,17 +65,23 @@ document.getElementById('submit').addEventListener('click', event =>{
       renderData(city)
       // append to history list
       renderHistory(city)
-      document.getElementById('searchCity').textContent = ''
+      document.getElementById('searchCity').value = ''
     })
     .catch(err => console.error(err))
 })
 
-//list item listener
+// list item listener
 document.addEventListener('click', event =>{
   event.preventDefault()
   if(event.target.classList.contains('cityDat')) {
-    // make array of stuff and pull from that.
+    // filter array to just results that match the city in history
     const result = historyArray.filter(city => city.name === event.target.dataset.text)
     renderData(result[0].results)
   }
+})
+
+//navBar dashboard listener
+document.addEventListener('click', event =>{
+  event.preventDefault()
+  if(event.target.classList.contains(''))
 })
