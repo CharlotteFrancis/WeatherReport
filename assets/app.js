@@ -1,21 +1,22 @@
 const API_KEY = '8a22d1422a54e506e8d24576ca19a497'
 
-let historyArray = []
+//resetList
+const resetHistory = _ =>{
+  localStorage.removeItem('history')
+  document.getElementById('history').innerHTML = ''
+}
 
-// test request
-axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=hourly,daily&appid=${API_KEY}`)
-  .then(res => {
-    let irvine = res.data
-    console.log(irvine.current.uvi)
-  })
-  .catch(err => console.error(err))
-
-axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=manila&units=imperial&appid=${API_KEY}`)
-  .then(res => {
-    let irvine = res.data
-    console.log(irvine)
-  })
-  .catch(err => console.error(err))
+//local store
+const storeLocal = (city) =>{
+  let historyArray = JSON.parse(localStorage.getItem('history')) || []
+  historyArray.unshift(
+    {
+      name: `${city.city.name}`,
+      results: city
+    }
+  )
+  localStorage.setItem('history', JSON.stringify(historyArray))
+}
 
 // reset UI
 const resetUI = _ =>{
@@ -111,7 +112,16 @@ const renderHistory = (city) =>{
   `
   document.getElementById('history').prepend(historyItem)
 }
-
+// render history on load
+const renderLoad = _ =>{
+  if (localStorage.getItem('history') !== null) {
+    const myArray = JSON.parse(localStorage.getItem('history'))
+    myArray.forEach(element => {
+      renderHistory(element.results)
+    })
+  }
+}
+renderLoad()
 // submit button listener
 document.getElementById('submit').addEventListener('click', event =>{
   event.preventDefault()
@@ -120,12 +130,13 @@ document.getElementById('submit').addEventListener('click', event =>{
     .then(res => {
       let city = res.data
 
-      historyArray.unshift(
-        {
-          name: `${city.city.name}`,
-          results: city
-        }
-      )
+      // historyArray.unshift(
+      //   {
+      //     name: `${city.city.name}`,
+      //     results: city
+      //   }
+      // )
+      storeLocal(city)
       renderData(city)
       // append to history list
       renderHistory(city)
@@ -137,17 +148,16 @@ document.getElementById('submit').addEventListener('click', event =>{
 // list item listener
 document.addEventListener('click', event =>{
   event.preventDefault()
-  if(event.target.classList.contains('cityDat')) {
-    // filter array to just results that match the city in history
-    const result = historyArray.filter(city => city.name === event.target.dataset.text)
+  if (event.target.classList.contains('cityDat')) {
+    const result = (JSON.parse(localStorage.getItem('history')).filter(city => city.name === event.target.dataset.text))
     renderData(result[0].results)
   }
 })
 
-//navBar dashboard listener
+// navBar dashboard listener
 document.addEventListener('click', event =>{
   event.preventDefault()
-  if(event.target.classList.contains('weather-dash')) {
-    renderData(historyArray[0].results)
+  if (event.target.classList.contains('weather-dash')) {
+    renderData(JSON.parse(localStorage.getItem('history')[0].results))
   }
 })
