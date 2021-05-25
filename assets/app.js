@@ -130,12 +130,6 @@ document.getElementById('submit').addEventListener('click', event =>{
     .then(res => {
       let city = res.data
 
-      // historyArray.unshift(
-      //   {
-      //     name: `${city.city.name}`,
-      //     results: city
-      //   }
-      // )
       storeLocal(city)
       renderData(city)
       // append to history list
