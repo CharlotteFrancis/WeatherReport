@@ -1,12 +1,12 @@
 const API_KEY = '8a22d1422a54e506e8d24576ca19a497'
 
-//resetList
+// resetList
 const resetHistory = _ =>{
   localStorage.removeItem('history')
   document.getElementById('history').innerHTML = ''
 }
 
-//local store
+// local store
 const storeLocal = (city) =>{
   let historyArray = JSON.parse(localStorage.getItem('history')) || []
   historyArray.unshift(
@@ -126,7 +126,7 @@ renderLoad()
 document.getElementById('submit').addEventListener('click', event =>{
   event.preventDefault()
   // axios request
-  axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=${document.getElementById('searchCity').value}&units=imperial&appid=${API_KEY}`)
+  axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${document.getElementById('searchCity').value}&units=imperial&appid=${API_KEY}`)
     .then(res => {
       let city = res.data
 
